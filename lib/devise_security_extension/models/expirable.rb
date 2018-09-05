@@ -27,6 +27,8 @@ module Devise
       #
       # @return [bool]
       def expired?
+        # check if resource can expire
+        return false unless self.respond_to?(:can_expire?) && self.can_expire?
         # expired_at set (manually, via cron, etc.)
         return self.expired_at < Time.now.utc unless self.expired_at.nil?
         # if it is not set, check the last activity against configured expire_after time range
